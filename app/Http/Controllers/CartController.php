@@ -4,63 +4,77 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddToCartRequest;
+use Symfony\Component\HttpFoundation\Response;
+use App\Respositories\Contracts\CartRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected CartRepositoryInterface $cartRepo)
     {
-        //
+        $this->cartRepo = $cartRepo;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function addToCart(AddToCartRequest $request)
     {
-        //
+        try {
+            $cart = $this->cartRepo->addProductToCart($request->toArray());
+
+            return $this->success(
+                'Product added to cart successfully',
+                Response::HTTP_CREATED,
+                $cart
+            );
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function removeFromCart(int $productId)
     {
-        //
+        try {
+            $cart = $this->cartRepo->removeProductFromCart($productId);
+
+            return $this->success(
+                'Product removed from cart successfully',
+                Response::HTTP_OK,
+                $cart
+            );
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
+    public function getCart()
     {
-        //
+        try {
+            $cart = $this->cartRepo->getCart();
+
+            return $this->success(
+                'Cart retrieved successfully',
+                Response::HTTP_OK,
+                $cart
+            );
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
+    public function checkoutCart()
     {
-        //
-    }
+        try {
+            $cart = $this->cartRepo->checkoutCart();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+            return $this->success(
+                'Cart checked out successfully',
+                Response::HTTP_OK,
+                [
+                    
+                ]
+            );
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 }

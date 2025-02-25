@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,13 @@ class CartFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::all()->pluck('id')->toArray();
+        $product = Product::all()->pluck('id')->toArray();
         return [
-            //
+            'user_id' => fake()->randomElement($user),
+            'product_id' => fake()->randomElement($product),
+            'quantity' => 1,
+            'total' => fake()->numberBetween(1000, 10000),
         ];
     }
 }
