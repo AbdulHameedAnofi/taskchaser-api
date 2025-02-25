@@ -32,7 +32,7 @@ class ProductController extends Controller
                 $product
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ class ProductController extends Controller
                 $products
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 }

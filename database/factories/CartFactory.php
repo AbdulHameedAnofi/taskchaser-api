@@ -19,12 +19,12 @@ class CartFactory extends Factory
     public function definition(): array
     {
         $user = User::all()->pluck('id')->toArray();
-        $product = Product::all()->pluck('id')->toArray();
+        $product = Product::all();
         return [
             'user_id' => fake()->randomElement($user),
-            'product_id' => fake()->randomElement($product),
+            'product_id' => fake()->randomElement($product->pluck('id')->toArray()),
             'quantity' => 1,
-            'total' => fake()->numberBetween(1000, 10000),
+            'total' => fake()->randomElement($product->pluck('amount')->toArray()),
         ];
     }
 }

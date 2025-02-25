@@ -19,8 +19,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('products', [ProductController::class, 'getProducts']);
 
-    Route::post('add-to-cart', [CartController::class, 'addProductToCart']);
-    Route::post('remove-from-cart/{productId}', [CartController::class, 'removeProductFromCart']);
+    Route::post('add-to-cart', [CartController::class, 'addToCart']);
+    Route::post('remove-from-cart/{productId}', [CartController::class, 'removeFromCart']);
     
     Route::post('checkout-cart', [CartController::class, 'checkoutCart']);
 

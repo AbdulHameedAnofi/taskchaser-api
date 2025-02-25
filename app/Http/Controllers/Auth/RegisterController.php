@@ -26,7 +26,7 @@ class RegisterController extends Controller
                 $user
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 }

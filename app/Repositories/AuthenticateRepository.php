@@ -2,12 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Contracts\AuthenticateRepositoryInterface;
 use App\Exceptions\AuthenticationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthenticateRepository
+class AuthenticateRepository implements AuthenticateRepositoryInterface
 {
     public function register(array $data)
     {
@@ -22,13 +23,13 @@ class AuthenticateRepository
     }
 
     public function login(array$data)
-    {
+    {;
+        $user = User::where('email', $data['email'])->first();
 
-        if (!Auth::attempt($data)) {
+        if (!$user || !Hash::check($data['password'], $user->password)) {
             throw new AuthenticationException('Invalid credentials');
         }
-
-        return Auth::user();
+        return $user;
     }
 
     public function logout()

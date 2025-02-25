@@ -7,7 +7,7 @@ use App\Repositories\CartRepository;
 use App\Repositories\Contracts\AuthenticateRepositoryInterface;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use App\Repositories\ProductRepository;
-use App\Respositories\Contracts\CartRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -17,12 +17,20 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
-        $this->app->bind([
-            AuthenticateRepositoryInterface::class => AuthenticateRepository::class,
-            ProductRepositoryInterface::class => ProductRepository::class,
-            CartRepositoryInterface::class => CartRepository::class,
-        ]);
+        $this->app->bind(
+            AuthenticateRepositoryInterface::class,
+            AuthenticateRepository::class
+        );
+
+        $this->app->bind(
+            ProductRepositoryInterface::class,
+            ProductRepository::class
+        );
+
+        $this->app->bind(
+            CartRepositoryInterface::class,
+            CartRepository::class
+        );
     }
 
     /**

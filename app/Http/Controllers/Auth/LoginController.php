@@ -31,7 +31,7 @@ class LoginController extends Controller
                     'user' => $user
                 ]);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 }

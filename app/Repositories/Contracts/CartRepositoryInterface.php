@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Respositories\Contracts;
+namespace App\Repositories\Contracts;
 
 interface CartRepositoryInterface
 {

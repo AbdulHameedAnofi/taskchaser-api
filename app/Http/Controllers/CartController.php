@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\CartRequest;
+use App\Notifications\UserCheckoutNotification;
 use Symfony\Component\HttpFoundation\Response;
-use App\Respositories\Contracts\CartRepositoryInterface;
+use App\Repositories\Contracts\CartRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -16,7 +18,7 @@ class CartController extends Controller
         $this->cartRepo = $cartRepo;
     }
 
-    public function addToCart(AddToCartRequest $request)
+    public function addToCart(CartRequest $request)
     {
         try {
             $cart = $this->cartRepo->addProductToCart($request->toArray());
@@ -27,7 +29,7 @@ class CartController extends Controller
                 $cart
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 
@@ -42,7 +44,7 @@ class CartController extends Controller
                 $cart
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 
@@ -57,24 +59,27 @@ class CartController extends Controller
                 $cart
             );
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
     }
 
     public function checkoutCart()
     {
         try {
-            $cart = $this->cartRepo->checkoutCart();
+            $user = Auth::user();
 
-            return $this->success(
-                'Cart checked out successfully',
-                Response::HTTP_OK,
-                [
-                    
-                ]
-            );
+            $user->notify(new UserCheckoutNotification($user));
+
+            $cart = $this->cartRepo->checkoutCart();
+            
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage());
         }
+        
+        return $this->success(
+            'Cart checked out successfully',
+            Response::HTTP_OK,
+            $cart
+        );
     }
 }
