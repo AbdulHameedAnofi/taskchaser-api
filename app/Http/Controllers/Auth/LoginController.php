@@ -15,7 +15,7 @@ class LoginController extends Controller
         $this->authRepo = $authRepo;
     }
 
-    public function login(LoginRequest $request)
+    public function signin(LoginRequest $request)
     {
         try {
             $user = $this->authRepo->login($request->toArray());

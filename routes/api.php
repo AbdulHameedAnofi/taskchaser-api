@@ -11,18 +11,18 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('signin', [LoginController::class, 'login']);
+Route::post('register', [RegisterController::class, 'register'])->name('register');
+Route::post('signin', [LoginController::class, 'signin'])->name('signin');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
 
-    Route::get('products', [ProductController::class, 'getProducts']);
+    Route::get('products', [ProductController::class, 'getProducts'])->name('products');
 
-    Route::post('cart', [CartController::class, 'addToCart']);
-    Route::delete('cart/{productId}', [CartController::class, 'removeFromCart']);
+    Route::post('cart', [CartController::class, 'addToCart'])->name('cart');
+    Route::delete('cart/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     
-    Route::post('checkout', [CartController::class, 'checkoutCart']);
+    Route::post('checkout', [CartController::class, 'checkoutCart'])->name('checkout');
 
     Route::post('add-product', [ProductController::class, 'addProduct']);
     Route::get('get-cart', [CartController::class, 'getCart']);

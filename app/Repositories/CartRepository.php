@@ -24,7 +24,7 @@ class CartRepository implements CartRepositoryInterface
         ]);
     }
 
-    public function removeProductFromCart(int $productId)
+    public function removeProductFromCart(string $productId)
     {
         $cart = $this->user_cart()->where('id', $productId)->first();
 

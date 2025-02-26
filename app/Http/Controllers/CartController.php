@@ -33,7 +33,7 @@ class CartController extends Controller
         }
     }
 
-    public function removeFromCart(int $productId)
+    public function removeFromCart(string $productId)
     {
         try {
             $cart = $this->cartRepo->removeProductFromCart($productId);
@@ -71,7 +71,7 @@ class CartController extends Controller
             $user->notify(new UserCheckoutNotification($user));
 
             $cart = $this->cartRepo->checkoutCart();
-            
+
         } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }

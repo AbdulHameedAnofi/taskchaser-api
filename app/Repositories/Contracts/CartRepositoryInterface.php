@@ -6,7 +6,7 @@ interface CartRepositoryInterface
 {
     public function addProductToCart(array $data);
 
-    public function removeProductFromCart(int $productId);
+    public function removeProductFromCart(string $productId);
 
     public function getCart();
 
